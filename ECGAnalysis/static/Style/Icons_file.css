@@ -1,0 +1,13 @@
+.icon-container
+{
+   align-items: center;
+    top: 30px;
+    right: 40px;
+    display: flex;
+}
+
+.home-container, .signout-container
+{
+    padding: 10px;
+    /*filter: invert(1);*/
+}

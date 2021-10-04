@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Style/SignIn.css' %}" >
+
+</head>
+<body>
+{% load static %}
+
+ <style>
+.content-section{
+    background-image: url( "{% static 'images/background.png' %}");
+}
+</style>
+<div class="container">
+    <div class="menu-container">
+        <h1 class="enterprise-name">ECG<span class="black" >Analysis</span></h1>
+        <div class="signIn-Container">
+            <h3  style="margin-left: 120px">Log in</h3>
+            <form class="login-form"  action="{% url 'welcome'%}" method="POST">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+	{% for field in form %}
+ <div class="form__group field">
+	<div class="label-wrapper">
+		{% if field.name == "username" %}
+            <label for="username" class=""> <strong>Username :</strong> </label>
+              <input type="input" class="form__field" placeholder="Name" name="username"  required />
+        {% endif %}
+		{% if field.name == "password" %}
+            <label for="password" class=""><strong>Password : </strong></label>
+              <input type="password" class="form__field" placeholder="Password" name="password" required />
+        {% endif %}
+
+
+	        </div>
+
+        </div>
+ {% endfor %}
+
+                 <input class="login-btn" type="submit"  style="margin-bottom: 10px" value="Go">
+
+                </form>
+
+                <button class="signUp-btn" onclick="location.href='{% url 'signup' %}'"   style="margin-top: 5px" >SignUp</button>
+
+              </div>
+
+
+    </div>
+    <div class="content-section"></div>
+</div>
+
+
+</body>
+</html>

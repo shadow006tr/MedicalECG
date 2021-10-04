@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignUp</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Style/SignIn.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'Style/Icons_file.css' %}">
+
+</head>
+<body>
+{% load static %}
+
+ <style>
+.content-section{
+    background-image: url( "{% static 'images/background.png' %}");
+}
+</style>
+<div class="container">
+    <div class="menu-container">
+        <h1 class="enterprise-name">ECG<span class="black" >Analysis</span></h1>
+
+        <div class="icon-container">
+        <div class="home-container"   onclick="javascript:history.go(-1);" style="position: absolute ; top : 20px;">
+       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3.222 18.917c5.666-5.905-.629-10.828-5.011-7.706l1.789 1.789h-6v-6l1.832 1.832c7.846-6.07 16.212 4.479 7.39 10.085z"/></svg>
+        </div>
+        </div>
+        <div class="signIn-Container">
+
+         {% if error != "" %}
+        <div class="error-message-container">
+            <h3 >{{ error }}</h3>
+            <h3>Please try again !!</h3>
+        </div>
+        {% endif %}
+             <h3 style="margin-left: 120px">Sign Up</h3>
+                    <form class="site-form" action="{% url 'signup'%}" method="POST">
+                    {% csrf_token %}
+                     {{ form.non_field_errors }}
+	{% for field in form %}
+ <div class="form__group field">
+	<div class="label-wrapper">
+		{% if field.name == "username" %}
+            <label for="username" class=""> <strong>Username :</strong> </label>
+              <input type="text"   placeholder="Name" name="username" required />
+        {% endif %}
+		{% if field.name == "password1" %}
+            <label for="password1" class=""><strong> Enter a Password : </strong></label>
+              <input type="password" placeholder="Password" name="password1" required />
+        {% endif %}
+        {% if field.name == "password2" %}
+            <label for="password2" class=""><strong>Confirm Password : </strong></label>
+              <input type="password"  placeholder="Password" name="password2" required />
+        {% endif %}
+
+	        </div>
+
+        </div>
+ {% endfor %}
+                    <input class="login-btn" type="submit"  style="margin-top: 5px" value="SignUp">
+                    </form>
+
+              </div>
+    </div>
+    <div class="content-section"></div>
+</div>
+
+
+</body>
+</html>

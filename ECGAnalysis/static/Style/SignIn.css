@@ -1,0 +1,215 @@
+html,body { height:100%; }
+
+body {
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-flow: row;
+  height: 100%;
+
+}
+.menu-container{
+    width: 400px;
+	box-shadow: 5px 0 5px -2px #888;
+    z-index: 100;
+	padding-left: 10px;
+	/*height: fit-content;*/
+}
+.content-section{
+    /*background-image: url("");*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    width: calc(100% - 400px);
+}
+.content-section h2{
+	font-size: 35px;
+    color: black;
+    text-align: center;
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('Poppins-Bold.ttf');
+}
+.enterprise-name{
+    text-align: center;
+    color: #0059ff;;
+    font-family: Poppins-Bold;
+}
+.black{
+    color: black;
+}
+.signIn-Container{
+    padding: 20px;
+    display: flex;
+	position : relative;
+    flex-direction: column;
+}
+.signIn-Container h3{
+    font-size: 25px;
+    margin: 100px 0 0 20px;
+
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*input style*/
+.form__group {
+	 position: relative;
+	 padding: 15px 0 0;
+	 margin-top: 10px;
+	 width: 50%;
+}
+ .form__field {
+	 font-family: inherit;
+	 width: 350px;
+	 border: 0;
+	 border-bottom: 2px solid #9b9b9b;
+	 outline: 0;
+	 font-size: 1rem;
+	 color: black;
+	 padding: 7px 0;
+	 background: transparent;
+	 transition: border-color 0.2s;
+}
+ .form__field::placeholder {
+	 color: transparent;
+}
+ .form__field:placeholder-shown ~ .form__label {
+	 font-size: 1.3rem;
+	 cursor: text;
+	 top: 20px;
+}
+ .form__label {
+	 position: absolute;
+	 top: 0;
+	 display: block;
+	 transition: 0.2s;
+	 font-size: 1rem;
+	 color: #9b9b9b;
+}
+ .form__field:focus {
+	 padding-bottom: 6px;
+	 font-weight: 700;
+	 border-width: 3px;
+	 border-image: linear-gradient(to right, #215699, #2B34EF);
+	 border-image-slice: 1;
+}
+ .form__field:focus ~ .form__label {
+	 position: absolute;
+	 top: 0;
+	 display: block;
+	 /*transition: 0.2s;*/
+	 font-size: 1rem;
+	 color:#215699 ;
+	 font-weight: 700;
+}
+/* reset input */
+ .form__field:required, .form__field:invalid {
+	 box-shadow: none;
+}
+
+
+ /*----fin de input style---*/
+/*---style btn ----*/
+.login-btn {
+	 width: 180px;
+	 height: 40px;
+	border: none;
+	 background: #0059ff;
+	 position: relative;
+    margin: 15px 70px 25px 70px ;
+	 border-radius: 32px;
+	 text-align: center;
+	 cursor: pointer;
+	 transition: all 0.1s ease-in-out;
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
+	 color: white;
+}
+
+.signUp-btn {
+	 width: 180px;
+	 height: 40px;
+	border: none;
+	 background: #36fff3;
+	 position: relative;
+    margin: 70px 70px ;
+	 border-radius: 32px;
+	 text-align: center;
+	 cursor: pointer;
+	 transition: all 0.1s ease-in-out;
+    box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
+	 color: #cd491f;
+}
+
+.error-message-container
+{
+	color:#cd491f ;
+    position: absolute;
+    bottom: -60px;
+	font-size: 13px;
+    opacity: 0.8;
+    height: fit-content;
+    text-align: center;
+    width: 80%;
+}
+
+.error-message-container h3
+{
+	margin : 5px;
+}
+
+
+ .login-btn span {
+	 /*line-height: 10px;*/
+	 font-family: "Poppins-Bold", sans-serif;
+	 font-size: 24px;
+	 font-weight:400;
+}
+
+ .login-btn:hover {
+	 opacity: 0.3;
+	 box-shadow: -6px -6px 10px rgba(255, 255, 255, 0.8), 6px 6px 10px rgba(0, 0, 0, 0.2);
+}
+ .login-btn:active {
+	 opacity: 1;
+	 box-shadow: inset -4px -4px 8px rgba(255, 255, 255, 0.5), inset 8px 8px 16px rgba(0, 0, 0, 0.1);
+	 color: #79e3b6;
+}
+
+/*---- fin style button */
+
+
+
+
+.forget-link{
+    color: red;
+    padding-top: 5px;
+    text-decoration: none;
+}
+.forget-link:hover  {
+    text-decoration: underline;
+}
+
+/* ------   style home page ----*/
+.welcome-Container{
+    padding: 20px;
+	margin-top: 45%;
+    display: flex;
+    flex-direction: column;
+}
+.welcome-Container form{
+	text-align: center;
+}
+
+.btn1 {
+    margin: 20px auto !important;
+    outline: none;
+}

@@ -1,0 +1,134 @@
+/*@import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");*/
+
+ .card {
+	 background-color: #fff;
+	 max-width: 260px;
+	 display: flex;
+     margin: 10px;
+	 flex-direction: column;
+	 overflow: hidden;
+	 border-radius: 1rem;
+	 box-shadow: 0px 1rem 1.5rem rgba(0, 0, 0, 0.5);
+}
+ .card .banner {
+	 /*background-image: url("https://images.unsplash.com/photo-1545703549-7bdb1d01b734?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ");*/
+	 background-position: center;
+	 background-repeat: no-repeat;
+	 background-size: cover;
+	 height: 11rem;
+	 display: flex;
+	 align-items: flex-end;
+	 justify-content: center;
+	 box-sizing: border-box;
+}
+ .card .banner .patch {
+	 background-color: #0059ff;
+	 width: 5rem;
+	 height: 5rem;
+     text-align: center;
+	 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+	 border-radius: 50%;
+     position: absolute;
+	 transform: translateY(50%);
+	 transition: transform 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+ .card .banner .patch:hover {
+	 transform: translateY(50%) scale(1.3);
+}
+ .patch h2{
+     position: sticky;
+     top: 32%;
+     font-size: 19px;
+     color: white;
+ }
+
+ .banner_img svg{
+     width: 270px;
+     height: 160px;
+ }
+
+
+ .card .actions {
+	 padding: 0 2rem 1.2rem;
+	 display: flex;
+	 flex-direction: column;
+	 order: 99;
+     margin-top: 70px;
+}
+ .card .actions .follow-info {
+	 padding: 0 0 1rem;
+	 display: flex;
+}
+/* .card .actions .follow-info h2 {*/
+/*	 text-align: center;*/
+/*	 width: 50%;*/
+/*	 margin: 0;*/
+/*	 box-sizing: border-box;*/
+/*}*/
+/* .card .actions .follow-info h2 a {*/
+/*	 text-decoration: none;*/
+/*	 padding: 0.8rem;*/
+/*	 display: flex;*/
+/*	 flex-direction: column;*/
+/*	 border-radius: 0.8rem;*/
+/*	 transition: background-color 100ms ease-in-out;*/
+/*}*/
+/* .card .actions .follow-info h2 a span {*/
+/*	 color: #1c9eff;*/
+/*	 font-weight: bold;*/
+/*	 transform-origin: bottom;*/
+/*	 transform: scaleY(1.3);*/
+/*	 transition: color 100ms ease-in-out;*/
+/*}*/
+/* .card .actions .follow-info h2 a small {*/
+/*	 color: #afafaf;*/
+/*	 font-size: 0.85rem;*/
+/*	 font-weight: normal;*/
+/*}*/
+/* .card .actions .follow-info h2 a:hover {*/
+/*	 background-color: #f2f2f2;*/
+/*}*/
+/* .card .actions .follow-info h2 a:hover span {*/
+/*	 color: #007ad6;*/
+/*}*/
+ .btnGraph {
+	 margin: 20px auto;
+	 color: inherit;
+	 font: inherit;
+	 font-weight: bold;
+	 background-color: #ffd01a;
+	 width: max-content;
+	 border: none;
+	 padding: 1rem 30px;
+	 outline: none;
+	 box-sizing: border-box;
+	 border-radius: 1.5rem/50%;
+	 transition: background-color 100ms ease-in-out, transform 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+ .btnGraph:hover {
+	 background-color: #efb10a;
+	 transform: scale(1.1);
+}
+ .btnGraph:active {
+	 background-color: #e8a200;
+	 transform: scale(1);
+}
+ .card .desc {
+	 text-align: justify;
+	 padding: 0 2rem 0.7rem;
+	 order: 100;
+}
+
+
+ .leads_container{
+     display: flex;
+     flex-wrap: wrap;
+     padding: 15px;
+     justify-content: center;
+	 height: 85%;
+	 overflow-y: scroll;
+ }
+ .data{
+	 height: 80%;
+	 overflow-y: scroll;
+ }
