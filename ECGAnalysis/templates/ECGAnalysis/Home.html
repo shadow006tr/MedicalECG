@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+          <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+          </script>
+    <title>Home</title>
+        {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Style/Home.css' %}" >
+
+</head>
+<body>
+{% load static %}
+
+ <style>
+.content-section{
+    background-image: url( "{% static 'images/background.png' %}");
+}
+</style>
+
+
+
+<div class="container">
+
+
+
+    <div class="menu-container">
+        <h1 class="enterprise-name">ECG<span class="black" >Analysis</span></h1>
+
+        <div class="icon-container">
+        <div class="home-container"   onclick="location.href='{% url 'welcome' %}'" style="position: absolute ; top : 20px; left : 25px;">
+       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3.222 18.917c5.666-5.905-.629-10.828-5.011-7.706l1.789 1.789h-6v-6l1.832 1.832c7.846-6.07 16.212 4.479 7.39 10.085z"/></svg>
+        </div>
+        </div>
+        <div class="welcome-Container" >
+
+
+            <form  action="{%  url 'Launch the parser' %}"   method="post">
+                {% csrf_token %}
+
+                <br><br>
+                <label>Choose a file</label>
+                <input type="file"  id="file" name="file" >
+                <p id="status"></p>
+                <input class="login-btn btn1" id="btn_submit"  type="submit" value="Submit"></input>
+
+            </form>
+
+
+        </div>
+
+        <div id="files_listview">
+            <h3> Previous Files
+            </h3>
+            <ul>
+                 {% for a in files %}
+
+                     <li> <a href='{% url 'GoToMain' file=a %}' ><strong> {{ a }}</strong></a></li>
+
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="content-section"></div>
+</div>
+
+<script>
+
+    if
+
+    $('#file').on('input', checkAndEnableButton);
+
+    function checkAndEnableButton() {
+          $("#btn_submit").prop('disabled', true);
+          var breakFlag = false;
+          var enteredVal = '';
+          enteredVal = $(this).val();
+
+          console.log('enteredval',enteredVal);
+          if( enteredVal == '')
+              breakFlag = true;
+
+          if (!breakFlag) {
+            $("#btn_submit").prop('disabled', false);
+          }
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

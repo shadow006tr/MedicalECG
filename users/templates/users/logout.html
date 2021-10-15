@@ -1,0 +1,14 @@
+{% extends "ECGAnalysis/base.html" %}
+{% block content %}
+    <div class="menu-container">
+        <div class="welcome-Container" >
+            <h2>Logged out</h2>
+            <div class="border-top">
+                <small class="text-muted">
+                    <a href="{% url 'login' %}">Log in again</a>
+                </small>
+            </div>
+        </div>
+    </div>
+    <div class="content-section"></div>
+{% endblock %}
