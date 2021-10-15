@@ -1,29 +1,19 @@
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
-from ProjetFinal import settings
-from django.contrib import messages
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.staticfiles.storage import staticfiles_storage
-from django.core.files.storage import FileSystemStorage
-import json
-
-from django.utils import timezone
-from ECGAnalysis.models import Doctor, RecordingFile
-from .static.py import help_functions as funcs
-from .static.py import main_classification_fct as classification_fct
-from .models import OverwriteStorage
-
-
 # from .forms import LoginForm
 import os
+
+from django.http import JsonResponse
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+
+from ECGAnalysis.models import RecordingFile
+from ProjetFinal import settings
+from .models import OverwriteStorage
+from .static.py import help_functions as funcs
+from .static.py import main_classification_fct as classification_fct
 
 # Create your views here.
 
 current_directory = os.getcwd()
-
 
 # global variable for username
 username = ''
@@ -33,38 +23,36 @@ def base(request):
     return render(request, 'ECGAnalysis/base.html')
 
 
-### This will be the first page you see when you logged in. You can upload a ECG image from here and the program will analyze it.###
+# This will be the first page you see when you logged in.
+# You can upload a ECG image from here and the program will analyze it.###
 
 
 def greeting(request):
-
     print(current_directory)
 
     args = []
     for file in RecordingFile.objects.all():
         args.append(file.title)
-    context = {'files':  args}
 
-    if request.user.is_authenticated == False:
-        # messages.warning(request, f'Please login to use the app')
+    if not request.user.is_authenticated:
         return redirect('login')
-    if (request.method == 'POST'):
+    if request.method == 'POST':
         ECGFile = request.FILES['ECGFile']
         fs = OverwriteStorage()
         args, url = funcs.Patientdata(
             settings.BASE_DIR + fs.url(ECGFile), 0, 50000, False)
-        dictlist = []
+        dictList = []
         for key, value in args.items():
             temp = [key, value]
-            dictlist.append(temp)
-            temp = [key, str(value)]
+            dictList.append(temp)
         check_files = RecordingFile.objects.filter(
             ecgfile=settings.BASE_DIR + fs.url(ECGFile))
 
-        if(len(check_files) == 0):  # no such ECG file in the DB
+        if len(check_files) == 0:  # no such ECG file in the DB
             print('vide')
             recording_file = RecordingFile(
-                title=ECGFile.name, ecgfile=settings.BASE_DIR + fs.url(ECGFile), url=url, doctor=username, patient=args['FirstName'])
+                title=ECGFile.name, ecgfile=settings.BASE_DIR + fs.url(ECGFile),
+                url=url, doctor=username, patient=args['FirstName'])
             recording_file.save()
             print(recording_file.url)
         else:
@@ -74,141 +62,18 @@ def greeting(request):
             recording_file.save()
             print(' y en a ')
 
-        graph = funcs.uxplot(url)
-        context = {'f': dictlist, 'graphique': graph}
+        innerGraph = funcs.uxplot(url)
+        context = {'f': dictList, 'graph': innerGraph}
         response = render(request, 'ECGAnalysis/leads_interface.html', context)
         response.set_cookie('file', url)
         return response
     return render(request, 'ECGAnalysis/greeting.html')
 
 
-# Returns the welcome page with the Authentication
-# Contains also the POST metod to got to the home page if it is valid, else stay on the welcome page
-
-
-def welcome(request):
-    if (request.method == 'POST'):
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            # store the username in a global variable
-            username = request.POST.get('username')
-            login(request, user)
-            print(current_directory)
-            args = []
-            for file in RecordingFile.objects.all():
-                args.append(file.title)
-            context = {'files': args}
-            return render(request, 'ECGAnalysis/home.html', context)
-
-    form = AuthenticationForm()
-    print(Doctor.objects.filter(name="Raph"))
-    return render(request, 'ECGAnalysis/welcome.html', {'form': form})
-
-
-# Returns the page for sign up
-# Post method to signup, if it is valid go the the home page, else stay on the sign up page
-def signup(request):
-    if (request.method == 'POST'):
-        form = UserCreationForm(request.POST)
-        print(request.POST.get('username'))
-        print(request.POST.get('password1'))
-        if form.is_valid():
-            username = request.POST.get('username')
-            password = request.POST.get('password1')
-            doctor = Doctor(name=username, email=username +
-                            "@gmail.com", password=password)
-            doctor.save()
-            user = form.save()
-            print(user)
-            login(request, user)
-            print(username)
-            args = []
-            for file in RecordingFile.objects.all():
-                args.append(file.title)
-            context = {'files': args}
-            return render(request, 'ECGAnalysis/home.html', context)
-        else:
-            print('problem')
-            error = "The parameters you entered are not valid"
-            return render(request, 'ECGAnalysis/signUp.html', {'form': form, 'error': error})
-
-    form = UserCreationForm
-    error = ""
-    return render(request, 'ECGAnalysis/signUp.html', {'form': form, 'error': error})
-
-
-def signOut(request):
-    logout(request)
-    form = AuthenticationForm()
-    return render(request, 'ECGAnalysis/welcome.html', {'form': form})
-
-
-# Returns our home page with the selection of the ECG file
-# Displays the ECG files from the Database
-def home(request):
-    print(current_directory)
-
-    args = []
-    for file in RecordingFile.objects.all():
-        args.append(file.title)
-    context = {'files':  args}
-
-    return render(request, 'ECGAnalysis/home.html', context)
-
-# Function that parse an new  ECG file in a CSV file and returns the data of the patient
-# with the page of our 12 leads in order to observe them
-# Save the file in the DB, if already there , change its params if necessary
-
-
-def Parser(request):
-    counter = 0
-    inp = request.POST.get('file')
-    var = ''
-    print('input')
-
-    # the file must be in the current directory if we want to get its past faster
-    for r, d, f in os.walk(current_directory):  # change the hard drive, if you want
-        for file in f:
-            filepath = os.path.join(r, file)
-            if file.endswith(inp):
-                counter += 1
-                var = os.path.join(r, file)
-                print(os.path.join(r, file))
-    print(counter)
-    # at 50000 now but can be enlarged, we consider that every new file is not in the DB so  we send False for inDb param
-    args, url = funcs.Patientdata(var, 0, 50000, False)
-
-    dictlist = []
-    for key, value in args.items():
-        temp = [key, value]
-        dictlist.append(temp)
-        temp = [key, str(value)]
-    check_files = RecordingFile.objects.filter(ecgfile=var)
-
-    if(len(check_files) == 0):  # no such ECG file in the DB
-        print('vide')
-        recording_file = RecordingFile(
-            title=inp, ecgfile=var, url=url, doctor=username, patient=args['FirstName'])
-        recording_file.save()
-        print(recording_file.url)
-    else:
-        recording_file = RecordingFile.objects.get(ecgfile=var)
-        recording_file.url = url
-        recording_file.save()
-        print(' y en a ')
-
-    graph = funcs.uxplot(url)
-    context = {'f': dictlist, 'graphique': graph}
-    response = render(request, 'ECGAnalysis/leads_interface.html', context)
-    response.set_cookie('file', url)
-    return response
-
-
-# If i choose a file already in the DB, i get the file, get the patient's data ( no need to parse in a CSV file) and go to the
+# If i choose a file already in the DB, i get the file,
+# get the patient's data ( no need to parse in a CSV file) and go to the
 # the page with the 12 leads
 def GoToMainPage(request, file):
-
     print(file)
     recording_file = RecordingFile.objects.filter(title=file)
     recording_file = recording_file[0]
@@ -221,10 +86,9 @@ def GoToMainPage(request, file):
         dictlist.append(temp)
 
     print('url', url)
-    print('recordingurl ', recording_file.url)
-    # url = recording_file.ecgfile.re
-    graph = funcs.uxplot(recording_file.url)
-    context = {'f': dictlist, 'graphique': graph}
+    print('recording ', recording_file.url)
+    mainGraph = funcs.uxplot(recording_file.url)
+    context = {'f': dictlist, 'graph': mainGraph}
     response = render(request, 'ECGAnalysis/leads_interface.html', context)
     response.set_cookie('file', recording_file.url)
     return response
@@ -241,11 +105,11 @@ def analyze(request):
     clusters = classification_fct.ux(
         url, int(lead_id), 0, 20000)  # at 20000 for now
     print('Fin')
-    data = {}
-    data['clusters'] = clusters
+    data = {'clusters': clusters}
     print('la')
     print(data['clusters'][1][1])
     return JsonResponse(data)
+
 
 # Function that gets the necessary data of the lead we decided to add to our page (graph,pulses,number of the lead)
 # Provides from an AJAX request
