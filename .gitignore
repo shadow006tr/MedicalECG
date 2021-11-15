@@ -11,6 +11,7 @@ ECGAnalysis/ECG
 
 # Distribution / packaging
 .Python
+.idea
 build/
 develop-eggs/
 dist/

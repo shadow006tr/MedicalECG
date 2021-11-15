@@ -1,0 +1,73 @@
+{% extends "ECGAnalysis/base.html" %}
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Patient</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Style/patient.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'Style/leads.css' %}">
+     <link rel="stylesheet" type="text/css" href="{% static 'Style/Icons_file.css' %}">
+
+</head>
+<body>
+{% load static %}
+
+ <style>
+.content-section{
+    background-image: url( "{% static 'images/background.png' %}");
+}
+</style>
+<div class="container">
+    <br><br>
+    <div class="menu-container">
+        <h4>Data of the Patient</h4>
+        <div class="data">
+            {% for headline , data in f %}
+                <div class="template-data">
+                    <strong class="">{{ headline }}:</strong>
+                    <p>{{ data }}</p>
+                </div>
+            {% endfor %}
+        </div>
+</div>
+
+<div class="content-section">
+    <h4 class="text-center">Choose the leads that you want analyse</h4>
+
+    <div class="leads_container">
+
+        {% for a  in graphique %}
+            <div class="card">
+                <div class="banner">
+                    <div class="banner_img"> {{ a|safe }}</div>
+
+              </div>
+
+                <button onclick="location.href='{% url 'graph' lead_id=forloop.counter %}'" type="button" class="btn btn-outline-warning" > Analyze the graph of lead {{ forloop.counter }}</button>
+
+            </div>
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+</div>
+</div>
+
+
+
+<script >
+     variable = "{{image}}";
+     console.log(variable);
+</script>
+</body>
+</html>
+
+{% endblock %}
