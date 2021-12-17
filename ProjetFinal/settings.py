@@ -16,6 +16,7 @@ import psycopg2
 from django.contrib.postgres.fields import hstore
 
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.conf.global_settings import MEDIA_ROOT
 import django.template.context_processors
@@ -39,9 +40,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'ECGAnalysis.apps.EcganalysisConfig',
-    'users.apps.UsersConfig',
-    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    # 'ECGAnalysis'
+    'ECGAnalysis'
 ]
 
 MIDDLEWARE = [
@@ -64,9 +62,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ProjetFinal.urls'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '/ECGAnalysis/ECG/patient')
+MEDIA_ROOT = '/home/user/mysite/media/'
 
-MEDIA_URL = '/ECGAnalysis/ECG/patient/'
+MEDIA_URL = '/media/images/'
 
 TEMPLATES = [
     {
@@ -79,7 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+               'django.template.context_processors.media'
             ],
         },
     },
@@ -126,6 +124,7 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 
+
 USE_I18N = True
 
 USE_L10N = True
@@ -137,9 +136,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-LOGIN_REDIRECT_URL = 'greeting'
