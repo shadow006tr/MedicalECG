@@ -39,7 +39,7 @@ def greeting(request):
     if request.method == 'POST':
         ECGFile = request.FILES['ECGFile']
         fs = OverwriteStorage()
-        args, url = funcs.Patientdata(
+        args, url = funcs.PatientData(
             settings.BASE_DIR + fs.url(ECGFile), 0, 50000, False)
         dictList = []
         for key, value in args.items():
@@ -79,7 +79,7 @@ def GoToMainPage(request, file):
     recording_file = recording_file[0]
 
     # already in the DB, we send True for DB param
-    args, url = funcs.Patientdata(recording_file.ecgfile, 0, 50000, True)
+    args, url = funcs.PatientData(recording_file.ecgfile, 0, 50000, True)
     dictlist = []
     for key, value in args.items():
         temp = [key, value]
@@ -124,7 +124,7 @@ def add_graph(request):
         url, int(lead_id), 0, 20000)
     # get an array for debug option
     dataset_debug = funcs.dataset_debug_mode(
-        data_np, len(data_np), pulses, int(lead_id))
+        data_np, len(data_np), pulses)
     context = {'lead_id': lead_id, 'data': data,
                'debug': dataset_debug, 'pulses': pulses}
     return JsonResponse(context)
@@ -139,7 +139,7 @@ def graph(request, lead_id):
 
     # get an array for debug option
     dataset_debug = funcs.dataset_debug_mode(
-        data_np, len(data_np), pulses, lead_id)
+        data_np, len(data_np), pulses)
     leads = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     # get the list of the leads without ours
     my_lead = list(filter(lambda x: x != lead_id, leads))

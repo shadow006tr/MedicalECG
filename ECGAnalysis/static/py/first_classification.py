@@ -1,22 +1,15 @@
-
-
-import warnings
-import matplotlib
-from matplotlib import pyplot as plt
-from matplotlib import rcParams
 from sklearn.cluster import KMeans
-import seaborn as sns
-import matplotlib.pyplot as plt
+
 from .help_functions import calc_distance
 
 
-# walkthrough:
+# walk through:
 # 1. mat1 = new matrix [no noises]
-# 2. try to find the optimal K of KMEANS, from 1 to 9 (included)
-# 3. save the inertias, centers and labels for each Kmeans from K = 1 till K = 9
+# 2. try to find the optimal K of K MEANS, from 1 to 9 (included)
+# 3. save the inertia's, centers and labels for each K means from K = 1 till K = 9
 # 4. make a line from 2 points: inertia of K=1 AND k=9
-# 5. the farest inertia from the line is "the elbow" therefore is the right K to detect the correct biggest cluster
-# 6. return: K centers of KMEANS with the K we found and the labels of each pulse
+# 5. the fairest inertia from the line is "the elbow" therefore is the right K to detect the correct biggest cluster
+# 6. return: K centers of K MEANS with the K we found and the labels of each pulse
 def detectCluster6d(mat1):
     X = mat1
     dist_points_from_cluster_center = []
@@ -32,13 +25,12 @@ def detectCluster6d(mat1):
         centers.append(k_model.cluster_centers_)
         labelsKmeans.append(k_model.labels_)
 
-    print("Inertias (from k=1 to k=9):", dist_points_from_cluster_center)
+    print("Inertia's (from k=1 to k=9):", dist_points_from_cluster_center)
 
     #
     # plt.plot(kLength, dist_points_from_cluster_center)
     # plt.plot([kLength[0], kLength[8]], [dist_points_from_cluster_center[0],
     #                      dist_points_from_cluster_center[8]], 'ro-')
-    
 
     a = dist_points_from_cluster_center[0] - dist_points_from_cluster_center[8]
     b = kLength[8] - kLength[0]
@@ -60,13 +52,13 @@ def detectCluster6d(mat1):
     # plt.plot(kLength, distance_of_points_from_line, 'ro-')
     # plt.show()
 
-    print("Inertias ratios:", ratioInertias)
+    print("Inertia's ratios:", ratioInertias)
 
-    #The point with max distance is the elbow and our K
+    # The point with max distance is the elbow and our K
     indexOfOptimumK = distance_of_points_from_line.index(
         max(distance_of_points_from_line))
 
     print("Number of clusters  =", str(indexOfOptimumK + 1))
-    print("center final ",centers[indexOfOptimumK])
-    print("labels final",labelsKmeans[indexOfOptimumK])
+    print("center final ", centers[indexOfOptimumK])
+    print("labels final", labelsKmeans[indexOfOptimumK])
     return centers[indexOfOptimumK], labelsKmeans[indexOfOptimumK]

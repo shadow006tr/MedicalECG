@@ -1,8 +1,6 @@
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils import timezone
-import datetime
-from django.contrib.postgres.fields import ArrayField, HStoreField
-from django.core.files.storage import FileSystemStorage
 
 
 class Doctor(models.Model):
