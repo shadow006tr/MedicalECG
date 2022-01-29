@@ -2,6 +2,8 @@ import csv
 
 import numpy as np
 
+from QRSDetectorOffline import QRSDetectorOffline
+
 from .detection_fct import getPDX_for_negative
 from .detection_fct import getPDX_for_positive
 from .first_classification import detectCluster6d
@@ -95,6 +97,7 @@ def ux(csv_file, leads_number, start_index, end_index):
 # Function  to choose the right delimitation function for each lead
 # We choose in function of the 97th percentile and the 92nd percentile
 def getPDX(leads_number, samples, starting, vend):
+    peaks = QRSDetectorOffline("fix").qrs_peaks_indices
 
     mean = np.mean(samples)
 
@@ -111,6 +114,6 @@ def getPDX(leads_number, samples, starting, vend):
     # print('percentile2 ' + str(percentile2) + ' ' + str(leads_number))
 
     if percentile1 > 1000 and (percentile1 - percentile2) > 500:
-        return getPDX_for_positive(samples, starting, vend)
+        return getPDX_for_positive(samples, starting, vend, peaks)
     else:
-        return getPDX_for_negative(samples, starting, vend)
+        return getPDX_for_negative(samples, starting, vend, peaks)
