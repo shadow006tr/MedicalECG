@@ -7,7 +7,7 @@ import scipy
 # The function that receives all the data and must delimit the different waves
 # and give them the necessary properties for analysis.
 # Here is for the waves that the majority of the waves are "up" or "positive" waves
-def getPDX_for_positive(samples, starting, vend):
+def getPDX_for_positive(samples, starting, vend, peaks):
     subsetA = samples
     veclen = len(subsetA)
 
@@ -79,6 +79,9 @@ def getPDX_for_positive(samples, starting, vend):
         vdx2[i] = 0
 
     vdx3 = np.copy(vdx2)
+    vdx3 = np.zeros(len(samples))
+    for peak in peaks:
+        vdx3[peak] = 1
     #
     # for i in range(start, ends + 1):
     #     if (vdx3[i] != 0):
@@ -126,7 +129,7 @@ def getPDX_for_positive(samples, starting, vend):
 
 
 # Here is for the "down" or "negative" waves
-def getPDX_for_negative(samples, starting, vend):
+def getPDX_for_negative(samples, starting, vend, peaks):
     subsetA = samples
     vectorLen = len(subsetA)
 
@@ -192,6 +195,9 @@ def getPDX_for_negative(samples, starting, vend):
         vdx2[i] = 0
 
     vdx3 = np.copy(vdx2)
+    vdx3 = np.zeros(len(samples))
+    for peak in peaks:
+        vdx3[peak] = 1
     for i in range(start, ends + 1):
         if vdx3[i] != 0:
             if subsetA[i] > - 400:
