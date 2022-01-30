@@ -46,17 +46,18 @@ def get_clean_sample(csv_file, leads_number, start_index, end_index):
     # get samples from the CSV file according to the lead number/column
     selected_lead_samples = get_selected_lead_samples(csv_file, leads_number)
     selected_lead_samples_np = np.array(selected_lead_samples)
-    selected_lead_samples_np_new = np.array(selected_lead_samples_np)
+    selected_lead_samples_np_new = np.array(selected_lead_samples_np, dtype=np.float)
 
     minvec = min(selected_lead_samples_np)
     maxvec = max(selected_lead_samples_np)
     diff = maxvec - minvec
 
+    f = open('ecg_data.csv', 'w')
+    f.write("timestamp, ecg_measurement\n")
     for i in range (len(selected_lead_samples_np)):
-        selected_lead_samples_np_new[i] = (selected_lead_samples_np[i] - minvec - diff / 8.0) * 5.0 / (diff * 10.0 / 8.0)
+        selected_lead_samples_np_new[i] = (selected_lead_samples_np[i] - minvec) * 5 / diff
+        f.write(f'{i}, {selected_lead_samples_np_new[i]}\n')
 
-    f = open('leads_new.txt', 'a')
-    selected_lead_samples_np_new.tofile(f, '\n', '%s')
     f.close()
 
     # call the function to get the matrix
@@ -97,7 +98,11 @@ def ux(csv_file, leads_number, start_index, end_index):
 # Function  to choose the right delimitation function for each lead
 # We choose in function of the 97th percentile and the 92nd percentile
 def getPDX(leads_number, samples, starting, vend):
-    peaks = QRSDetectorOffline("fix").qrs_peaks_indices
+    peaks = QRSDetectorOffline(ecg_data_path="ecg_data.csv",
+                               verbose=True,
+                               log_data=True,
+                               plot_data=True,
+                               show_plot=False).qrs_peaks_indices
 
     mean = np.mean(samples)
 
