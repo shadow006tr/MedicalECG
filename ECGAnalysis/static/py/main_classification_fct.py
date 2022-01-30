@@ -44,18 +44,21 @@ def get_clean_sample(csv_file, leads_number, start_index, end_index):
     # get samples from the CSV file according to the lead number/column
     selected_lead_samples = get_selected_lead_samples(csv_file, leads_number)
     selected_lead_samples_np = np.array(selected_lead_samples)
-    selected_lead_samples_np_new = np.array(selected_lead_samples_np)
+    # selected_lead_samples_np_new = np.array(selected_lead_samples_np, dtype=np.float)
 
-    minvec = min(selected_lead_samples_np)
-    maxvec = max(selected_lead_samples_np)
-    diff = maxvec - minvec
+    # minvec = min(selected_lead_samples_np)
+    # maxvec = max(selected_lead_samples_np)
+    # diff = maxvec - minvec
 
-    for i in range (len(selected_lead_samples_np)):
-        selected_lead_samples_np_new[i] = (selected_lead_samples_np[i] - minvec - diff / 8.0) * 5.0 / (diff * 10.0 / 8.0)
-
-    f = open('leads_new.txt', 'a')
-    selected_lead_samples_np_new.tofile(f, '\n', '%s')
-    f.close()
+    # f = open('values.txt', 'w')
+    # f.write("timestamp, ecg_measurement\n")
+    # for i in range (len(selected_lead_samples_np)):
+    #     selected_lead_samples_np_new[i] = (selected_lead_samples_np[i] - minvec) * 5 / diff
+    #     f.write(f'{i}, {selected_lead_samples_np_new[i]}\n')
+    #
+    # # import pdb;
+    # # pdb.set_trace()
+    # f.close()
 
     # call the function to get the matrix
     mat = getPDX(leads_number, selected_lead_samples_np[start_index:end_index], 0, end_index - start_index)
