@@ -102,10 +102,10 @@ def analyze(request):
     lead_id = request.POST.get('lead_id', None)
     print(lead_id)
     print(url)
-    clusters = classification_fct.ux(
-        url, int(lead_id), 0, 20000)  # at 20000 for now
+    clusters = classification_fct.ux(url, int(lead_id), 0, 20000)  # at 20000 for now
     print('Fin')
-    data = {'clusters': clusters}
+    data = {}
+    data['clusters'] = clusters
     print('la')
     print(data['clusters'][1][1])
     return JsonResponse(data)
