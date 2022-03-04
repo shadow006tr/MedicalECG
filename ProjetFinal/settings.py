@@ -21,7 +21,7 @@ from django.conf.global_settings import MEDIA_ROOT
 import django.template.context_processors
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -64,7 +64,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ProjetFinal.urls'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '/ECGAnalysis/ECG/patient')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), '/ECGAnalysis/ECG/patient')
 
 MEDIA_URL = '/ECGAnalysis/ECG/patient/'
 

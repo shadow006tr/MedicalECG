@@ -1,5 +1,6 @@
 # from .forms import LoginForm
 import os
+import shutil
 
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -36,28 +37,30 @@ def greeting(request):
 
     if not request.user.is_authenticated:
         return redirect('login')
-    if request.method == 'POST':
+    if request.method == 'POST' and request.FILES['ECGFile']:
         ECGFile = request.FILES['ECGFile']
         fs = OverwriteStorage()
+        filename = fs.save(ECGFile.name, ECGFile)
+        uploaded_file_url = fs.url(filename)
         args, url = funcs.PatientData(
-            settings.BASE_DIR + fs.url(ECGFile), 0, 50000, False)
+            uploaded_file_url, 0, 50000, False)
         dictList = []
         for key, value in args.items():
             temp = [key, value]
             dictList.append(temp)
         check_files = RecordingFile.objects.filter(
-            ecgfile=settings.BASE_DIR + fs.url(ECGFile))
+            ecgfile=uploaded_file_url)
 
         if len(check_files) == 0:  # no such ECG file in the DB
             print('vide')
             recording_file = RecordingFile(
-                title=ECGFile.name, ecgfile=settings.BASE_DIR + fs.url(ECGFile),
+                title=ECGFile.name, ecgfile=uploaded_file_url,
                 url=url, doctor=username, patient=args['FirstName'])
             recording_file.save()
             print(recording_file.url)
         else:
             recording_file = RecordingFile.objects.get(
-                ecgfile=settings.BASE_DIR + fs.url(ECGFile))
+                ecgfile=uploaded_file_url)
             recording_file.url = url
             recording_file.save()
             print(' y en a ')
